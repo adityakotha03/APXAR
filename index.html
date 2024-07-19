@@ -6,12 +6,48 @@
     <title>3D Model Viewer</title>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .model-container {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
         model-viewer {
             width: 100%;
-            height: 400px;
+            height: 500px;
+            --progress-bar-height: 10px;
+            --progress-bar-color: #4CAF50;
         }
-        .progress-bar {
-            display: none;
+        #view-model-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #view-model-btn:hover {
+            background-color: #45a049;
         }
         #ar-prompt {
             position: absolute;
@@ -34,20 +70,24 @@
             position: absolute;
             top: 16px;
             right: 16px;
+            padding: 8px 12px;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
-    <model-viewer src="models/APX-GP.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" shadow-intensity="1">
-        <div class="progress-bar hide" slot="progress-bar">
-            <div class="update-bar"></div>
+    <div class="container">
+        <h1>3D Model Viewer</h1>
+        <div class="model-container">
+            <model-viewer src="models/APX-GP.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" shadow-intensity="1" auto-rotate>
+                <div slot="progress-bar"></div>
+                <div id="ar-prompt">
+                    <img src="https://modelviewer.dev/shared-assets/icons/hand.png" alt="AR prompt">
+                </div>
+            </model-viewer>
         </div>
-        <button slot="ar-button" id="ar-button">
-            View in your space
-        </button>
-        <div id="ar-prompt">
-            <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
-        </div>
-    </model-viewer>
+        <button id="view-model-btn" onclick="document.querySelector('model-viewer').activateAR()">View in AR</button>
+    </div>
 </body>
 </html>
